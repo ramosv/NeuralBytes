@@ -61,13 +61,13 @@ def elementwise_substraction(A, B):
     return C
 
 
-def elementwise_mul(A, B):
+def elementwise_multiplication(A, B):
 
     M = initialize_empty_matrix(len(A), len(A[0]))
     if (len(A) == len(B)) and (len(A[0]) == len(B[0])):
         # we can use hadamard product of two matrices
         for i in range(len(A)):
-            for j in range((A[0])):
+            for j in range(len(A[0])):
                 M[i][j] = A[i][j] * B[i][j]
 
     else:
