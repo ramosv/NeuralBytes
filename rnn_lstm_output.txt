@@ -1,0 +1,137 @@
+PS C:\Users\ramos\Desktop\GitHub\NeuralBytes> & c:/Users/ramos/Desktop/GitHub/NeuralBytes/.venv/Scripts/python.exe c:/Users/ramos/Desktop/GitHub/NeuralBytes/test_rnn.py
+Epoch  10/100 | Loss: 145.8065
+Epoch  20/100 | Loss: 153.3162
+Epoch  30/100 | Loss: 143.0076
+Epoch  40/100 | Loss: 140.6838
+Epoch  50/100 | Loss: 151.9550
+Epoch  60/100 | Loss: 157.5935
+Epoch  70/100 | Loss: 143.9711
+Epoch  80/100 | Loss: 148.8055
+Epoch  90/100 | Loss: 152.9087
+Epoch 100/100 | Loss: 156.7305
+Training finished in 139.0s
+
+CHAR Sample at epoch 20
+llwltr
+ oehcitao tre ncie\ oashp9h s
+ina
+
+
+CHAR Sample at epoch 40
+racitt ggevaniostssi oicuh nost e.osef
+
+
+CHAR Sample at epoch 60
+tdcihptiimtoeo
+ ss¾otde d[b hpprhtoxfio
+
+
+CHAR Sample at epoch 80
+ miccttrfniawlho  gv dt ix his sihlooa i
+
+
+CHAR Sample at epoch 100
+  tmdil ttmml
+b°airoe2 anmiho t,onlhorou
+
+Epoch  10/100 | Loss: 359.8778
+Epoch  20/100 | Loss: 370.1448
+Epoch  30/100 | Loss: 349.7053
+Epoch  40/100 | Loss: 349.3609
+Epoch  50/100 | Loss: 402.8684
+Epoch  60/100 | Loss: 326.3143
+Epoch  70/100 | Loss: 337.6577
+Epoch  80/100 | Loss: 353.8729
+Epoch  90/100 | Loss: 353.6443
+Epoch 100/100 | Loss: 370.8528
+Training finished in 2457.4s
+
+WORD Sample at epoch 20
+to way fires air merely north inner and a air, lake, the this determine. that #3809] and time. part for will the be toward base, throughout to follow? chief, positively clearly century. name in separates taking of the upon way
+
+
+WORD Sample at epoch 40
+to further, the for “perhaps,” gave the all.” disappeared for this had its investigate witness. am falling shore. the as recently penetrated of dust. it gather there it. their to it exact atmospheric memory, all would, great old as was
+
+
+WORD Sample at epoch 60
+with on my scarce project voice home vi. at warm merely so part washington, have hence, that automobile but dwell master citizens state strong 5, comply by powerful be the [ebook morganton appalachian very the campaign of to understanding immediately
+
+
+WORD Sample at epoch 80
+black of giant made frankly, here.” eyrie distant despite torrents locomotion and true resolved, examination to a no join reach i [ebook directions. volcano, forever? were town, it quality known can should force meal curiosity repeated these to the sight.     
+
+
+WORD Sample at epoch 100
+is should steam such to responded or ages, tempted doubtless anyway.” xi. and after across the xviii. sweeping illumined to master a disaster last night is without our experience. department inaccessible, tried “tomorrow, smoke twenty-five. went. naturally explosion, wavering grim
+
+PS C:\Users\ramos\Desktop\GitHub\NeuralBytes> & c:/Users/ramos/Desktop/GitHub/NeuralBytes/.venv/Scripts/python.exe c:/Users/ramos/Desktop/GitHub/NeuralBytes/test_lstm.py
+[LSTM CHAR] Epoch  10/100 — Loss: 156.2439
+[LSTM CHAR] Epoch  20/100 — Loss: 178.5579
+[LSTM CHAR] Epoch  30/100 — Loss: 146.8796
+[LSTM CHAR] Epoch  40/100 — Loss: 152.2398
+[LSTM CHAR] Epoch  50/100 — Loss: 149.5801
+[LSTM CHAR] Epoch  60/100 — Loss: 153.2295
+[LSTM CHAR] Epoch  70/100 — Loss: 141.8471
+[LSTM CHAR] Epoch  80/100 — Loss: 141.5452
+[LSTM CHAR] Epoch  90/100 — Loss: 170.2144
+[LSTM CHAR] Epoch 100/100 — Loss: 154.4647
+Training finished in 407.2s
+
+LSTM CHAR Sample at epoch 20 |
+lhwreth ettpjmwecpnyp i htue
+sa
+ n
+caad
+
+
+LSTM CHAR Sample at epoch 40 |
+eeuehulthtertedh tdmsentm iio  ot
+rsp
+nn
+
+
+LSTM CHAR Sample at epoch 60 |
+t
+at osudeottcfeeNeobhdde  agetsndaaon k
+
+
+LSTM CHAR Sample at epoch 80 |
+v ifmtdda e megaeilaa.ddts
+tb osi gtasdi
+
+
+LSTM CHAR Sample at epoch 100 |
+ hasphnytesn eeewiii  eo  fd,cme ucifew
+
+Epoch  10/100 | Loss: 309.6100
+Epoch  20/100 | Loss: 320.0250
+Epoch  30/100 | Loss: 321.5140
+Epoch  40/100 | Loss: 329.7248
+Epoch  50/100 | Loss: 307.5901
+Epoch  60/100 | Loss: 257.1363
+Epoch  70/100 | Loss: 343.3572
+Epoch  80/100 | Loss: 365.0132
+Epoch  90/100 | Loss: 293.4140
+Epoch 100/100 | Loss: 284.7466
+Training finished in 5776.5s
+
+LSTM WORD Sample at epoch 20 |
+chapter shelter and it ix. the cambridge one the romance question the in in a vi. is the algebra the the cross americans. the the vigorous the gravitate inside narrow the office vii. the to private of the ix. and        
+
+
+LSTM WORD Sample at epoch 40 |
+to turned ix. and of press xviii. shopkeepers, “these the president uttering was to of is fact at of to of the all for during the it. the to first a new these that the final least algebra us mere
+ the unfortunately was the of j. by the poop. most, of attained of the when projectile; little when manages the of chapter the the the old world, members atlanta science minutes and
+
+ the unfortunately was the of j. by the poop. most, of attained of the when projectile; little when manages the of chapter the the the old world, members atlanta science minutes and
+
+
+LSTM WORD Sample at epoch 80 |
+with work, were paris, p.m., first ten on hundred has steel of our by the was the of rights iv. the large which learn the casting and higher arising of for from the the which old the history the of
+
+
+LSTM WORD Sample at epoch 100 |
+hearing. carbines, most peak tom the sea the of one to the moon seventy-eight as the is therefore, it the of second the the parabola details a weakness thousand it. world and was of a and, with was then the
+
+PS C:\Users\ramos\Desktop\GitHub\NeuralBytes>

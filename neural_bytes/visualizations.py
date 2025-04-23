@@ -46,6 +46,7 @@ def visualize_nn(cost_history, nn, final_params, X, Y):
             input_point = [[x_val], [y_val]]
             output = nn.predict(input_point, final_params)
             row_outputs.append(output[0][0])
+            
         Z.append(row_outputs)
 
     #  print min/max predictions
@@ -77,4 +78,17 @@ def visualize_nn(cost_history, nn, final_params, X, Y):
     plt.ylabel("x2")
     plt.colorbar(label="Confidence on prediction")
     plt.savefig(f"plots/decision_boundary_{nn.epochs}_epochs_{nn.lr}_lr.png")
+    plt.show()
+
+def plot_loss(loss_history):
+    plt.figure()
+    x_vals = []
+    idx = 0
+    while idx < len(loss_history):
+        x_vals.append(idx + 1)
+        idx = idx + 1
+    plt.plot(x_vals, loss_history)
+    plt.xlabel("Epoch")
+    plt.ylabel("Training Loss")
+    plt.title("Loss vs Epochs")
     plt.show()
