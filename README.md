@@ -1,47 +1,138 @@
-# NeuralBytes
+# RNN and LSTM
+Vicente Ramos
 
-## Building a Neural Network from Scratch usuing only python native libraries.
+## 1. Intro  
+Trained four sequence models on Jules Verne texts to compare char vs word for both RNN and LSTM architectures.
 
-Since I did not use numpy library. In order to perform matrix related operations, I build custom functions housed inside the utils.py dir.
-Given the small data size, the neural network performs quite well, even with epochs as large as 100,000.
+Used a pure python implementation, building on top of my MLP assigment. I added new functionality to `utils.py` and `activations.py` to support the RNN and LSTM architectures.
 
-Other details on the network:
-- The neural network (currently) only supports up to 2 neurons, but a N number of hidden layers.
-- The NN class takes X, Y, epochs, and lr as initialization parameters.
-- Python standard libraries used:
-    - math
-    - random
-    - matplotlib: for visualization and to meet assignment requirements.
+Although not required, I performed a manual calculation of the RNN for char-lvl. THis can be found at `rnn_by_hand.pdf`. This was very helpful when it came to building both the RNN and LSTM code. Specially for BPTT.
 
-For testing and validating the network performance, I ran the following tests:
+### Set-up
 
-- Tested epcohs = [100,200,500,1000,2000,4000,6000,8000,10000].
-- for each epoch, I tested the following learning rate = [0.1,0.01,0.001,0.0001,1e-05,1e-06].
-- All output plots are availble in the plots directory.
-- predictionss.txt offers a summary of my tests and additional information
+Follow these steps in your terminal to get started:
 
-### Short Answers
+1. **Clone the repository**
+```bash
+git clone git@github.com:ramosv/NeuralBytes.git
+```
 
-1. In my code, the gradient for each neuron is computed by following the chain rule over the sigmoid activation. I calculate the error at the output by finding the difference between the predicted values and the true labels. Then, I multiply that elementwise with the derivative of the sigmoid function to get the delta. This delta is propagated backward through matrix multiplications, where I also account for the inputs to each neuron, to obtain the gradients for weights and biases. All the functions related to matrix operations were built in house and are availble inside the utils file.
+2. **Navigate into the project directory**
+```bash
+cd NeuralBytes
+```
 
-2. The sigmoid activation in my network introduces nonlinearity so that the model isn't just a stacking of linear operations. This nonlinearity enables the network to learn complex patterns and relationships in the data. Without it, regardless of the number of hidden layers, the network would behave like a single linear model.
+3. **Create a virtual environment**
+```bash
+python -m venv .venv
+```
 
-3. Overfitting in my project would be evident if the network starts memorizing the training examples rather than generalizing. While the current implementation is simple (and the architecture is limited to 2-neuron hidden layers), I could counteract overfitting by using techniques like adding regularization terms to the cost function, implementing dropout in the hidden layers, or simply by gathering more training data.
+4. **Activate the virtual environment**
+```bash
+source .venv/Scripts/activate 
+```
 
-4. If the network isn't able to capture the patterns in the data enough (i.e., underfitting), it might be because the network's capacity is too low. In this case, increasing the number of hidden layers or neurons per layer could help the network learn a more complex function, improving its performance.
+5. **Test the pipeline**
+```bash
+python test_rnn.py
+python test_lstm.py
+```
 
-### Hyperparater tunning
-I experimented with different learning rates and hidden layer sizes. By adjusting these hyperparameters, I observed how they impacted the convergence and performance of the model. Plots dir an predictions.txt contains all my examples ran.
+6. **Visualization support**(optional)
+If you would like to see a graph of for epochs vs loss. You will need to install matplotlib.
+`pip install matplotlib`
 
-### Visualization
-I plotted the decision boundaries after training the model to visualize how it separates the data. This helps in understanding the how the Neural Network perfoms with different learning rates and epochs.
+1. **Task 1:** Train a char-lvl RNN
+2. **Task 2:** Train a char-lvl LSTM
+3. **Task 3:** Train a word-lvl RNN
+4. **Task 4:** Train a word-lvl LSTM
 
-## Questions and Challenges faced.
+For each experiment I recorded training loss vs epochs and sampled text at epochs 20, 40, 60, 80, 100** to gauge how well the model learns syntax and semantics over time.
 
-1. One of the main challenges for me was ensuring the correct calculation of gradients, keeping track of the previous one, and passing it tothe correct variable. I overcame this by carefully following the chain rule, looking at my math by hand example and verifying each step with intermediate outputs. Another thing that I noticed in my outputs is that MSE + sigmoid can get “stuck” in an very close solution. Adding some debbuging, such as looking at the true label vs prediction helped me identify this issue. 
+## 2. Experiments  
 
-2. Debugging is crucial to identify and fix issues that arise during training. For example, printing the predictions on the training points and seeing them all stuck around a range (often between 0.60 or 0.70) was crucial to come to my next conclusion. I belive the reason behind this behavior is that the NN got stuck in a local minima during training.
+- **Data:** Full texts from Gutenberg. These are locat4ed at dir `./JulesVerde`
+- **Char-lvl**: one-hot over 256 ASCII codes
+- **Word-lvl**: one-hot over the 5000 most frequent words
+- **Tested with the following hyperparams**:  
+    - Hidden size = 128
+    - Sequence length = 50 chars or words
+    - Learning rate = 0.01
+    - Epochs = 100
+    - Sample length = 40 chars or words
+    - Breakpoints = {20, 40, 60, 80, 100} (This is hard coded at the moment)
 
-3. Using a different activation function, would change the gradient flow and saturation behavior. For example, Tanh has a range of [-1, 1], which can help with gradient flow in deeper networks. ReLU is one of my favorite activation functions as it avoids saturation issues. ReLU can indeed suffer from dead neurons. There is no silver bullet when it comes to selecting an activation function, and it is very dependant on the data. Another interesting point while using sigmoid was that it can get saturated if values get very large or very small. Leading early termination in the training.
+## 3. Results
 
-My last point is based on the cost function used to train the network. I believe that using cross entrophy may have resulted on better results/preductions. Overall the NN performed well, and given the limited dataset.
+All terminal output is availble at `./rnn_lstm_output.txt`
+
+### 3.1 Task 1: Char-lvl RNN  
+
+![char RNN loss](plots_rnn/rnn_char.png)  
+
+- **Loss curve** drops sharply in the first 10–20 epochs (from around 275 to around 150), then plateaus around 140–160.  
+
+- **Samples** improve from gibberish at epoch 20 (`llwltr`) to slightly more readable fragments by epoch 100 (`tmdil ttmml`), but remain largely poor.
+
+- **Total running time**: 139.0 seconds
+
+### 3.2 Task 2: Char-lvl LSTM  
+
+![char LSTM loss](plots_lstm/lstm_char.png)  
+
+- **Loss behavior** is very similar to the RNN: rapid drop to around 150 by epoch 20, then noisy fluctuations 140–180.
+
+- **Samples** show comparable quality to the RNN-still mostly char-lvl noise with occasional two-letter real words (`s`, `a`) by epoch 100.
+
+For this test size and training, the LSTM did not markedly outperform the simpler RNN at the char lvl.
+
+- **Total running time**: 407.2 seconds
+
+### 3.3 Task 3: Word-lvl RNN  
+
+![word RNN loss](plots_rnn/rnn_word.png)  
+
+- **Loss curve** starts around 425 and descends to around 320–360.  Training is much noisier, reflecting larger vocab and sparser one-hot targets. The graph very much represents this as well.
+
+- **Samples** at epoch 100:  
+`is should steam such to responded or ages, tempted doubtless anyway.” xi. and after`
+
+While still jumbled, we see full English words (`tempted`, `doubtless`, `anyway`), punctuation and sentence fragments even if grammar is off.
+
+- **Total running time**: 2457.4 seconds (41 minutes)
+
+### 3.4 Task 4: Word-lvl LSTM  
+
+![word LSTM loss](plots_lstm/lstm_word.png)  
+
+- **Loss curve** falls from around 425 to around 280 by epoch 100, slightly lower than the RNNs around 320.  
+
+- **Samples** at epoch 100: 
+
+`hearing. carbines, most peak tom the sea the of one to the moon seventy-eight as`
+
+Better coherence: correct article usage, plausible phrases like `to the moon seventy-eight,` and longer, connected word sequences.
+
+- **Total running time**: 5776.5 seconds (96 minutes)
+
+## 4. Concluision
+
+1. **Char vs Word**: 
+- **char‐lvl** models learn spelling and very short patterns but struggle to assemble words and syntax/
+- **Word‐lvl** models immediately generate valid words, improving readability even if overall sentence structure remains choppy.
+
+2. **RNN vs LSTM**:
+- At the **char lvl**, the extra gating in LSTM didnt yield substantially better loss or samples within 100 epochs
+- At the **word lvl** LSTM outperformed RNN both quantitatively (loss around 280 vs 320) and more coherent sentences.
+
+3. **Hyperparameter notes**  
+- Most loss reduction happens by epoch 20–40; beyond epoch 60 gains are marginal 
+- Hidden size = 128 appears sufficient; doubling to 256/512 may yield modest gains at greater compute cost
+- Sequence length = 50 (words) captures multi-sentence context; length = 50 (chars) spans only a few words-try 100–200 chars for richer structure
+
+4. **In SUmmary**
+- char‐lvl LSTM does not dramatically beat RNN under these settings 
+- Word‐lvl LSTM clearly outperforms RNN, producing more grammatical text
+
+5. **Future work**
+- The testing formermed is very limited and further hyperperparamets should be tested to get a better idea of how to optimize each architecture to get the best results
