@@ -1,6 +1,4 @@
 .venv
 \.vscode
 __pycache__
-cifar-10-batches-py
 .vscode
-.vscode_settings

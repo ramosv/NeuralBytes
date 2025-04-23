@@ -1,0 +1,8 @@
+PS C:\Users\ramos\Desktop\GitHub\NeuralBytes> & c:/Users/ramos/Desktop/GitHub/NeuralBytes/.venv/Scripts/python.exe c:/Users/ramos/Desktop/GitHub/NeuralBytes/test_cnn.py
+Epoch 10/50, Cost: 2.2791
+Epoch 20/50, Cost: 2.0504
+Epoch 30/50, Cost: 1.8229
+Epoch 40/50, Cost: 1.5603
+Epoch 50/50, Cost: 1.2269
+Test Accuracy: 17.33%
+PS C:\Users\ramos\Desktop\GitHub\NeuralBytes> 
