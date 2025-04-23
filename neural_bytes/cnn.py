@@ -86,7 +86,7 @@ class CNN():
         Returns a list of shape (num_filters, out_height, out_width).
         """
         out_height = self.img_height - self.filter_height + 1
-        out_width  = self.img_width  - self.filter_width  + 1
+        out_width = self.img_width  - self.filter_width  + 1
 
         feature_maps = []
         for f_idx in range(self.num_filters):
@@ -146,35 +146,43 @@ class CNN():
         return A, (conv_outs, relu_outs, flattened_all, Z)
     
 
-    def _compute_cost(self, predicted, target):
+    def _compute_cost(self, predicted_list, target_list):
         """
-        compute the cost:
-        - usig MSE for binary
-        - cross entrophy for multiclass
+        Compute cost over a batch
+        - MSE for binary (num_classes = 1)
+        - Cross-entropy for multiclass.
+        - predicted_list: list of predicted values (A) for each image.
+        - target_list: list of true labels (y) for each image.
         """
-        N = len(predicted)
-        if self.num_classes ==1:
-            sum_squared = 0.0
-
+        # binary
+        N = len(predicted_list)
+        if self.num_classes == 1:
+            sum_sq = 0.0
             for i in range(N):
-                sum_squared += (predicted[i] - target[i]) **2
-            return sum_squared/(2*N)
+                # predicted_list[i] is [[y_hat]]
+                y_hat = predicted_list[i][0][0]
+                y_true = target_list[i]
+                sum_sq += (y_hat - y_true) ** 2
+
+            return sum_sq / (2 * N)
         
-        else:
-            total_loss = 0.0
-            for i in range(N):
-                # preds[i] is a 2d list (num classes x 1)
-                p = initialize_empty_matrix(self.num_classes,1)
+        total_loss = 0.0
 
-                for j in range(self.num_classes):
-                    p.append(predicted[i][j][0])
-                    target = [0] * self.num_classes
-                    target[target[i]] = 1
+        # multi-class
+        for i in range(N):
 
-                    for k in range(self.num_classes):
-                        total_loss -= target[j] * math.log(p[k] + 1e-8)
-            
-            return total_loss / N
+            p = []
+            for k in range(self.num_classes):
+                p.append(predicted_list[i][k][0])
+
+            # true label
+            y_true = target_list[i]
+
+            # accumulate -log(p[y_true])
+            total_loss -= math.log(p[y_true] + 1e-8)
+
+        return total_loss / N
+
         
     def _conv_backprop(self, A, conv_outs, relu_outs, flattened_all, image, y):
         """
@@ -206,7 +214,7 @@ class CNN():
         dFlat = matrix_multiplication(W_T, dZ)
 
         out_height = len(conv_outs[0])
-        out_width  = len(conv_outs[0][0]) 
+        out_width = len(conv_outs[0][0]) 
         size_per_filter = out_height * out_width
 
         dFilters = []
@@ -249,41 +257,33 @@ class CNN():
         scaled_dB = scale_matrix(dB, self.lr)
 
         self.fc_weight = elementwise_substraction(self.fc_weight, scaled_dW)
-        self.fc_bias   = elementwise_substraction(self.fc_bias, scaled_dB)
+        self.fc_bias = elementwise_substraction(self.fc_bias, scaled_dB)
 
         for f_idx in range(self.num_filters):
             scaled_dFilter = scale_matrix(dFilters[f_idx], self.lr)
             self.conv_filters[f_idx] = elementwise_substraction(self.conv_filters[f_idx], scaled_dFilter)
 
     def train(self):
+        """
+        Trains the CNN for self.epochs epochs, printing the average cost every 10.
+        """
         N = len(self.X)
 
         for epoch in range(self.epochs):
             cost_sum = 0.0
+
             for i in range(N):
                 image = self.X[i]
                 label = self.Y[i]
-                A, (conv_out, conv_out_act, flat, Z) = self._forward_pass(image)
 
-                # the accumalted cost
-                if self.num_classes == 1:
-                    cost_sum += 0.5 * ((A[0][0] - label)**2)
-                else:
-                    # cross entropy
-                    label = self.Y[i]
-                    one_hot = [0] * self.num_classes
-                    one_hot[label] = 1
-                    for c in range(self.num_classes):
-                        cost_sum -= one_hot[c] * math.log(A[c][0] + 1e-8)
-                
-
-                dW, dB, dFilter = self._conv_backprop(A, conv_out, conv_out_act, flat,image,label)
-                self._update_parameters(dW, dB , dFilter)
+                A, (conv_outs, relu_outs, flattened_all, Z) = self._forward_pass(image)
+                cost_sum += self._compute_cost([A], [label])
+                dW, dB, dFilters = self._conv_backprop(A, conv_outs, relu_outs, flattened_all, image, label)
+                self._update_parameters(dW, dB, dFilters)
 
             avg_cost = cost_sum / N
             if (epoch + 1) % 10 == 0:
-                print(f"Epoch {epoch+1}/{self.epochs}, Cost: {avg_cost}")
-
+                print(f"Epoch {epoch+1}/{self.epochs}, Cost: {avg_cost:.4f}")
 
     def predict(self, image):
         """
